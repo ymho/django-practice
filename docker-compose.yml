@@ -4,8 +4,12 @@ services:
 #  postgresというデータベース
   db:
     image: postgres
-    hostname: postgres
     container_name: db_postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    env_file:
+      - .env
+    restart: always
 
 #  Django
   web:
@@ -21,4 +25,5 @@ services:
       - db
     # 環境変数(公開できないAPIキーなどは下記ファイルに記載します)
     env_file:
-      - django.env
+      - .env
+    restart: always
